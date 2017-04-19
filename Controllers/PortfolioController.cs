@@ -18,9 +18,12 @@ namespace DayTraderDotNet.Controllers
 
         // GET api/portfolio/values/5
         [HttpGet("values/{id}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
-            return "value " + id;
+            Dictionary<string, double> result = new Dictionary<string, double>();
+            result.Add("value", 10001.09);
+
+            return Json(result);
         }
 
 
