@@ -10,8 +10,8 @@ namespace DayTraderDotNet.Models
     [Table("QUOTEEJB")]
     public class Quoteejb
     {
-        public decimal low { get; set; }
-        public decimal open { get; set; }
+        public decimal low { get; set; }       
+        public decimal open1 { get; set; }
         public double volume { get; set; }
         public decimal price { get; set; }
         public decimal high { get; set; }

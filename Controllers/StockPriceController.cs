@@ -28,20 +28,33 @@ namespace DayTraderDotNet.Controllers
             return "Controller is running " + holdingslist.LongCount();
         }
 
-        // POST api/values
+        // 
         [HttpPost]
-        public void Post([FromBody]StockChange Change)
+        public JsonResult Post([FromBody]StockChange Change)
         {
+            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
+            // expects JSON like this {"StockID": "RTH","newPrice": 220}
+            var stock = (from q in _context.Quoteejbs
+                         where q.symbol.Equals(Change.StockID) select q).Single();
+            decimal oldPrice = stock.price;
+            stock.price = Change.newPrice;
+            stock.change1 = (double) (Change.newPrice - oldPrice);
+            _context.SaveChanges();
 
+            result.Add(Change.StockID, stock.price);
+            return Json(result);
+                
             //return the new price after the change
         }
 
         [HttpGet("{id}")]
         public JsonResult Get(string id)
         {
-            //SELECT sum(q.price*h.QUANTITY) as value FROM tradedb.holdingejb as h, tradedb.quoteejb as q where q.SYMBOL = h.QUOTE_SYMBOL AND h.ACCOUNT_ACCOUNTID = 1  group by h.ACCOUNT_ACCOUNTID;
-            Dictionary<string, double> result = new Dictionary<string, double>();
-            result.Add(id, 101.09);
+            var stockprice = (from q in _context.Quoteejbs
+                                where q.symbol.Equals(id)
+                                select q.price).Single();
+            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
+            result.Add(id, stockprice);
 
             return Json(result);
         }

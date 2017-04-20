@@ -8,7 +8,7 @@ namespace DayTraderDotNet.Models
     public class StockChange
     {
         public string StockID { get; set; }
-        public double newPrice { get; set; }
+        public decimal newPrice { get; set; }
 
     }
 }
