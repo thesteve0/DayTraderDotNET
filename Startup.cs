@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DayTraderDotNet.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DayTraderDotNet
 {
@@ -29,6 +31,9 @@ namespace DayTraderDotNet
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<DayTraderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TraderConnection")));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,17 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DayTraderDotNet.model;
+using DayTraderDotNet.Models;
+using Microsoft.Extensions.Logging;
 
 namespace DayTraderDotNet.Controllers
 {
     [Route("api/[controller]")]
     public class StockPriceController : Controller
     {
+        private readonly DayTraderContext _context;
+        private readonly ILogger _logger;
+
+        public StockPriceController(DayTraderContext context, ILogger<StockPriceController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
         // GET: /<controller>/
         public string Index()
         {
-            return "Controller is running";
+            //var holdingslist = context.Holdingejbs.ToList();
+            return "Controller is running "; //+ holdingslist.LongCount();
         }
 
         // POST api/values
