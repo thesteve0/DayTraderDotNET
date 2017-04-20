@@ -24,8 +24,8 @@ namespace DayTraderDotNet.Controllers
         // GET: /<controller>/
         public string Index()
         {
-            //var holdingslist = context.Holdingejbs.ToList();
-            return "Controller is running "; //+ holdingslist.LongCount();
+            var holdingslist = _context.Holdingejbs.ToList();           
+            return "Controller is running " + holdingslist.LongCount();
         }
 
         // POST api/values

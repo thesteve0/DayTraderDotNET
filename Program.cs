@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using DayTraderDotNet.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DayTraderDotNet
 {
@@ -16,14 +18,17 @@ namespace DayTraderDotNet
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder().AddEnvironmentVariables("").Build();
+            var config = new ConfigurationBuilder().AddEnvironmentVariables("")
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)              
+                .AddEnvironmentVariables().Build();
+            
 
             var url = config["ASPNETCORE_URLS"] ?? "http://*:8080";
 
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Program>()
+                .UseStartup<Startup>()
                 .UseUrls(url)
                 .Build();
 
@@ -38,6 +43,7 @@ namespace DayTraderDotNet
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
             });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
