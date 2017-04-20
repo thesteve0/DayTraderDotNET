@@ -19,7 +19,7 @@
     "DayTraderDotNet": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/stockprice",
+      "launchUrl": "http://localhost:8080/api/stockprice",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
