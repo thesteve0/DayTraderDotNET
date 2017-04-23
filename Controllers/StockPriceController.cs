@@ -53,8 +53,9 @@ namespace DayTraderDotNet.Controllers
             var stockprice = (from q in _context.Quoteejbs
                                 where q.symbol.Equals(id)
                                 select q.price).Single();
-            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
-            result.Add(id, stockprice);
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            result.Add("symbol", id);
+            result.Add("price",  stockprice.ToString());
 
             return Json(result);
         }

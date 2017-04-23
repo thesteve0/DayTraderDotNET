@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DayTraderDotNet.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace DayTraderDotNet
 {
@@ -32,6 +30,9 @@ namespace DayTraderDotNet
             // Add framework services.
             services.AddMvc();
             services.AddDbContext<DayTraderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TraderConnection")));
+            services.Configure<MvcOptions>(options => {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
+            });
 
 
         }
@@ -42,7 +43,7 @@ namespace DayTraderDotNet
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute().UseFileServer();
         }
     }
 }

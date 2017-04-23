@@ -1,0 +1,16 @@
+/* positions the map to fill the entire screen */
+.map {
+  height: calc(100vh - 72px);
+  /* now lets set the map as a background */
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.container-fluid {
+  position: relative;
+  z-index: 1;
+}
+.navbar

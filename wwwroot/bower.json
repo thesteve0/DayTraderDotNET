@@ -1,0 +1,20 @@
+{
+  "name": "dataviewer",
+  "homepage": "https://github.com/thesteve0/dataviewer",
+  "authors": [
+    "Steven Pousty <spousty@redhat.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "APACHE",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "patternfly": "^3.17.0"
+  }
+}
