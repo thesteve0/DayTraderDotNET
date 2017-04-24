@@ -28,11 +28,13 @@ namespace DayTraderDotNet
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddCors();
             services.AddMvc();
-            services.AddDbContext<DayTraderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TraderConnection")));
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigins"));
             });
+            services.AddDbContext<DayTraderContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TraderConnection")));
+           
 
 
         }
@@ -44,6 +46,7 @@ namespace DayTraderDotNet
             loggerFactory.AddDebug();
 
             app.UseMvcWithDefaultRoute().UseFileServer();
+         
         }
     }
 }

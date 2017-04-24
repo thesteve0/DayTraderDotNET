@@ -88,8 +88,10 @@
     function getStocks() {
         var symbol = document.getElementById("justStockSymbol").value;
         var stockURL = "api/stockprice/" + symbol;
-        $.get(stockURL, updateStock, "json");
-        console.log("symbol: " + symbol);
+        $.getJSON(stockURL, null, function(data) {
+            window.alert(data.symbol)
+        });
+        //console.log("symbol: " + symbol);
 
     }
 
