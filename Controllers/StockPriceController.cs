@@ -32,7 +32,7 @@ namespace DayTraderDotNet.Controllers
         [HttpPost]
         public JsonResult Post([FromBody]StockChange Change)
         {
-            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
+            Dictionary<string, string> result = new Dictionary<string, string>();
             // expects JSON like this {"StockID": "RTH","newPrice": 220}
             var stock = (from q in _context.Quoteejbs
                          where q.symbol.Equals(Change.StockID) select q).Single();
@@ -40,11 +40,12 @@ namespace DayTraderDotNet.Controllers
             stock.price = Change.newPrice;
             stock.change1 = (double) (Change.newPrice - oldPrice);
             _context.SaveChanges();
-
-            result.Add(Change.StockID, stock.price);
+            
+            result.Add("symbol", Change.StockID);
+            result.Add("price", stock.price.ToString());
             return Json(result);
                 
-            //return the new price after the change
+            
         }
 
         [HttpGet("{id}")]

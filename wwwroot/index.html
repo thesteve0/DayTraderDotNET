@@ -51,21 +51,24 @@
 <div class="container-fluid">
     <div class="row">
         <!-- first column -->
-        <div class="col-md-6">
+        <div class="col-md-5">
             <h1>You want a stock price, I'll give you a stock price</h1>
             <form class="form-inline">
                 <div class="form-group">
                     <label for="stockSymbol">Stock Symbol</label>
                     <input type="text" class="form-control" id="justStockSymbol" placeholder="RTH">
                 </div>           
-                <button type="submit" class="btn btn-default" onclick="getStocks()">Fetch</button>
+                <button type="button" class="btn btn-default" onclick="getStocks()">Fetch</button>
             </form>
-            <table class="table-bordered table-striped" id="stockPriceTable">
+            <p></p>
+            <table class="table table-bordered table-striped table-hover" id="stockPriceTable">
             </table>
         </div>
-
+        <div class="col-md-1">
+            &nbsp;
+        </div>
         <!-- second column -->
-        <div class="col-md-6">
+        <div class="col-md-5">
             <h1>Let's make some money</h1>
             <form class="form-inline">
                 <div class="form-group">
@@ -76,8 +79,10 @@
                     <label for="stockPrice">Stock Price</label>
                     <input type="text" class="form-control" id="stockPrice" placeholder="200.10">
                 </div>
-                <button type="submit" class="btn btn-default"  onclick="changePortfolio()">Update</button>
+                <button type="button" class="btn btn-default"  onclick="changePortfolio()">Update</button>
             </form>
+            <p></p>
+            <table class="table table-bordered table-striped table-hover" id="updatePriceTable"></table>
         </div>
         
     </div> <!-- ends outside row -->
@@ -88,10 +93,8 @@
     function getStocks() {
         var symbol = document.getElementById("justStockSymbol").value;
         var stockURL = "api/stockprice/" + symbol;
-        $.getJSON(stockURL, null, function(data) {
-            window.alert(data.symbol)
-        });
-        //console.log("symbol: " + symbol);
+        $.getJSON(stockURL, null, updateStock);
+        //return false;
 
     }
 
@@ -105,9 +108,32 @@
     }
 
     function changePortfolio() {
+        var symbol = document.getElementById("stockSymbol").value;
+        var price = document.getElementById("stockPrice").value;
+        // {"StockID": "RTH","newPrice": 220}
+        var submitData = {"StockID": symbol, "newPrice": price}
+        var priceURL = "api/stockprice";
+        $.ajax({
+            contentType: 'application/json',
+            data: JSON.stringify(submitData),
+            success: updatedPrice,
+            processData: false,
+            type: 'POST',
+            url: priceURL
+        });
+        
+
+        //$.post(priceURL, JSON.stringify(submitData), updatedPrice, JSON);
         console.log("Updated portfolio");
     }
 
+    function updatedPrice(data) {
+        var pre = "<tr><td> ";
+        var post = " </td></tr>";
+        var all = pre + data.symbol + " </td><td> " + data.price + post;
+        $("#updatePriceTable").append(all);
+
+    }
 </script>
 </body>
 
